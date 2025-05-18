@@ -5,21 +5,27 @@
         <div>
         <button id='x'> X5 DIZEL </button>
         <button id='s'> TOYOTA SUPRA </button>
- 
+            
         </div>
-               <span style="margin-top:50px; font-size: 50; font-weight: 500;" id="text"></span>
+        <span style="margin-top:50px; font-size: 50; font-weight: 500;" id="text"></span>
+        <img id="img" width="500" height="500" style="border:none"/>
         </div>
     </body>
     <script>
         const supra = document.getElementById('s');
         const x = document.getElementById('x');
         const scris = document.getElementById('text');
+        const img = document.getElementById('img');
+
+
         supra.onclick = ()=>{
             scris.innerHTML = 'ESTI CEL MAI SMECHER AI PULA MARE CAT GABARITU LU SOSOACA'
+            img.src = '/tudor.png'
         };
         
         x.onclick = () =>{
             scris.innerHTML = 'ESTI HOMOSEXUAL AI PULA CAT CREIERU LU SIMION'
+            img.src = '/drx.png'
         }         
     </script>
 </html>
