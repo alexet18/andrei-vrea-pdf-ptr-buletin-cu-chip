@@ -1,0 +1,51 @@
+<html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/3.0.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+    <section class="flex justify-center items-center w-full h-full flex-col">
+        <div class="max-w-md mx-auto">
+            <label class="text-base text-slate-900 font-medium mb-3 block">Baga acilea Coco</label>
+            <input id="fileInput" type="file"
+                class="w-full text-slate-500 font-medium text-sm bg-white border file:cursor-pointer cursor-pointer file:border-0 file:py-3 file:px-4 file:mr-4 file:bg-gray-100 file:hover:bg-gray-200 file:text-slate-500 rounded" />
+            <p class="text-xs text-slate-500 mt-2">PDF.</p>
+        </div>
+        <div style='max-width:500px;max-height:500px; overflow:auto'>
+            <img id="preview" class="my-12">
+        </div>
+
+
+        <canvas id="c"></canvas>
+    </section>
+</body>
+<script>
+    import { fromPath } from "pdf2pic";
+    const fileInput = document.getElementById('fileInput');
+    const reader = new FileReader();
+    const img = document.getElementById('preview');
+
+    reader.onload = () => {
+        console.log(reader.result);
+        img.src = reader.result
+    };
+    reader.onerror = () => {
+        showMessage("Error reading the file. Please try again.", "error");
+    };
+ 
+
+    fileInput.oninput = (event) => {
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    //  var img = new Image();
+    //  img.src = pdfCanvas.toDataURL();
+
+
+
+   
+</script>
+
+</html>
