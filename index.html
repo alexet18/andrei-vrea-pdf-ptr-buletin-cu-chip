@@ -1,31 +1,83 @@
 <html>
-    <body>
-        <div style="display: flex; justify-content: center;align-items: center;flex-direction: column;">
-        <h1>CE ITI PLACE?</h1>
-        <div>
-        <button id='x'> X5 DIZEL </button>
-        <button id='s'> TOYOTA SUPRA </button>
-            
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/3.0.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+    <section class="flex justify-center items-center w-full h-full flex-col">
+        <div class="max-w-md mx-auto">
+            <label class="text-base text-slate-900 font-medium mb-3 block">Baga acilea Marinica</label>
+            <input id="fileInput" type="file"
+                class="w-full text-slate-500 font-medium text-sm bg-white border file:cursor-pointer cursor-pointer file:border-0 file:py-3 file:px-4 file:mr-4 file:bg-gray-100 file:hover:bg-gray-200 file:text-slate-500 rounded" />
+            <p class="text-xs text-slate-500 mt-2">PNG, JPG, SVG.</p>
         </div>
-        <span style="margin-top:50px; font-size: 50; font-weight: 500;" id="text"></span>
-        <img id="img" width="500" height="500" style="border:0"/>
-        </div>
-    </body>
-    <script>
-        const supra = document.getElementById('s');
-        const x = document.getElementById('x');
-        const scris = document.getElementById('text');
-        const img = document.getElementById('img');
+        <img class="my-12">
+    </section>
+</body>
+<script>
+    window.jsPDF = window.jspdf.jsPDF;
+
+    const fileInput = document.getElementById('fileInput');
+    fileInput.oninput = (file) => {
+        previewFile();
+    }
+
+    var createPDF = function (file) {
+
+            var image = new Image();
+
+            image.onload = function () {
+                var doc = new jsPDF('p','pt','a4');
+                documentProps = {
+                    width:doc.internal.pageSize.getWidth(),
+                    height: doc.internal.pageSize.getHeight()
+
+                }
+                console.log(documentProps.width,documentProps.height)
+                console.log(image.width,image.height)
+
+                var ratio = image.height/image.width;
+
+                var pdfImageProps = {
+                    width: documentProps.width - 20,
+                    height:(documentProps.width-20) * ratio,
+                    x:10,
+                    y:(documentProps.height - ((documentProps.width-20) * ratio))/2
+                }
+                console.log(ratio);
+
+                doc.addImage(file, pdfImageProps.x , pdfImageProps.y , pdfImageProps.width,pdfImageProps.height);
+                var string = doc.output('datauristring');
+                var iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>"
+                var x = window.open();
+                x.document.open();
+                x.document.write(iframe);
+                x.document.close();
+            };
+
+            image.src = file;
+
+        }
 
 
-        supra.onclick = ()=>{
-            scris.innerHTML = 'ESTI CEL MAI SMECHER AI PULA MARE CAT GABARITU LU SOSOACA'
-            img.src = 'tudor.png'
-        };
-        
-        x.onclick = () =>{
-            scris.innerHTML = 'ESTI HOMOSEXUAL AI PULA CAT CREIERU LU SIMION'
-            img.src = 'drx.png'
-        }         
-    </script>
+    function previewFile() {
+        var preview = document.querySelector('img');
+        var file = document.querySelector('input[type=file]').files[0];
+        var reader = new FileReader();
+
+        reader.onloadend = function () {
+            preview.src = reader.result;
+            createPDF(reader.result);
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "";
+        }
+    }
+</script>
+
 </html>
